@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id='app'>
     <!-- hello world
      <input type="text" v-model="msg"> -->
      <search></search>
@@ -7,11 +7,10 @@
 </template>
 
 <script>
-import Search from './src/component/Search.vue'
-console.log(Search)
+import Search from './component/Search.vue'
 export default {
   name: 'App',
-  components:[Search]
+  components:{Search} 
 }
 </script>
 

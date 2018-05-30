@@ -3,6 +3,8 @@ import lodash from 'lodash'
 import Element from 'element-ui'
 import App from './App'
 
+Vue.config.devtools = true
+
 var app =new Vue({
     el: '#app',
     components: { App },
@@ -12,12 +14,3 @@ var app =new Vue({
     }
 })
   
-
-// import Vue from 'vue';
-
-// var app = new Vue({
-//   el: '#app',
-//   data: {
-//     message: 'Hello Vue!'
-//   }
-// });

@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
+  <div>
     hello world
-     <input type="text" v-model="msg">
   </div>
 </template>
 
@@ -9,7 +8,6 @@
 // import Search from './src/component/Search.vue'
 // console.log(Search)
 export default {
-  name: 'App'
 //   components:[Search]
 }
 </script>
