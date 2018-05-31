@@ -1,5 +1,14 @@
+const webpack = require('webpack');
+const middleware = require('webpack-dev-middleware');
+const WebpackDevServer = require('webpack-dev-server');
+const webpackConfig = require('../webpack.config');
+const compiler = webpack(webpackConfig);
 var express = require('express');
 var app = express();
+
+app.use(middleware(compiler, {
+  // webpack-dev-middleware options
+}));
 
 app.get('/', function (req, res) {
     res.send('Hello World!');
