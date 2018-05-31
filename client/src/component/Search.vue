@@ -49,7 +49,7 @@ export default {
     search(){ 
       let self = this
       this.axios.get(transferURL.SEARCH).then((res)=>{
-        self.tableData = JSON.parse(res.data)
+        self.tableData = res.data
       })
     }
   }

@@ -1,15 +1,21 @@
 from flask import Flask
-from flask import request, jsonify, Response
+from flask import request, jsonify, Response, render_template
 import json
 app = Flask(__name__)
-
 
 users = []
 
 def create_user(name, phone,score):
 	return {"name":name, "phone":phone, "score":score}
 
+@app.route('/')
+def hello():
+	return render_template('index.html')
 
+@app.route('/test')
+def test():
+	return 'hello world'
+	
 @app.route('/save')
 def save():
 	name = request.args.get('name')

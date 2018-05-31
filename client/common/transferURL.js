@@ -1,3 +1,3 @@
 module.exports = {
-    'SEARCH':'/api/users'
+    'SEARCH':'/users'
 }

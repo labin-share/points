@@ -6,6 +6,8 @@ const webpack = require('webpack')
 
 module.exports = {
     mode: 'development',
+    // mode: 'production',
+    devtool: '#cheap-module-eval-source-map',
     "entry": {
         "main": "./src/main.js", // key为文件名，对应出口[name].js 中的name
     },
@@ -22,11 +24,12 @@ module.exports = {
         }, {
             "test": /\.js$/,
             "loader": 'babel-loader', // js文件使用babel-loader 转换。
-            "exclude": '/node_modules'
+            "exclude": '/node_modules',
+            "query": {"compact": true}
         }, {
             "test": /\.vue$/, // 遇到vue文件使用vue-loader。vue-loader需要依赖其他loader 下载后会有提示
             "loader": 'vue-loader',
-            "exclude": '/node_modules'
+            // "exclude": '/node_modules'
         },{ 
             "test": /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             "loader": 'url-loader?limit=100000' 

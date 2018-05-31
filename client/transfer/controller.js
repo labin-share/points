@@ -11,7 +11,7 @@ var search = (req,res)=>{
     if(params)
         url+= `?${params}`
     request.get(url,(error,response,body)=>{
-        res.json(body)
+        res.send(body)
     })
 }
 
@@ -21,7 +21,7 @@ function buildParam(params, argMap){
             params += `&${key}=${argMap[key]}`
     }
     return params
-}
+} 
 
 module.exports = {
     search:search
