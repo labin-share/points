@@ -1,12 +1,13 @@
 from flask import Flask
-from flask import request
+from flask import request, jsonify, Response
+import json
 app = Flask(__name__)
 
 
 users = []
 
 def create_user(name, phone,score):
-	return {'name':name, 'phone':phone, 'score':score}
+	return {"name":name, "phone":phone, "score":score}
 
 
 @app.route('/save')
@@ -17,16 +18,16 @@ def save():
 	print(score)
 	global users
 	users.append(create_user(name,phone,score))
-	return str(users)
+	return jsonify(users)
 	
 @app.route('/users')
 def search():
 	global users
 	name = request.args.get('name')
 	if(name is None):
-		return str(users)
+		return jsonify(users)
 	result = findUser(name)	
-	return str(result)
+	return jsonify(result)
 	
 	
 @app.route('/increase')

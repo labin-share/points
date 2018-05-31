@@ -27,6 +27,9 @@ module.exports = {
             "test": /\.vue$/, // 遇到vue文件使用vue-loader。vue-loader需要依赖其他loader 下载后会有提示
             "loader": 'vue-loader',
             "exclude": '/node_modules'
+        },{ 
+            "test": /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            "loader": 'url-loader?limit=100000' 
         }]
     },
     resolve: {

@@ -3,6 +3,7 @@ const middleware = require('webpack-dev-middleware');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('../webpack.config');
 const compiler = webpack(webpackConfig);
+var route = require('./route')
 var express = require('express');
 var app = express();
 
@@ -13,6 +14,8 @@ app.use(middleware(compiler, {
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
+
+route.mountRoute(app)
 
 app.use(express.static('dist'));
 
