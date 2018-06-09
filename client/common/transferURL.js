@@ -1,3 +1,5 @@
 module.exports = {
-    'SEARCH':'/users'
+    'SEARCH':'/users',
+    'INCREASE':'/score/increase',
+    'DESCREASE':'/score/descrease'
 }

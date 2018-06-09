@@ -1,9 +1,5 @@
 <template>
-  <div id='app'>
-    <!-- hello world
-     <input type="text" v-model="msg"> -->
-     <search></search>
-  </div>
+    <search></search>
 </template>
 
 <script>

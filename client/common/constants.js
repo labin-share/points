@@ -1,0 +1,20 @@
+module.exports = {
+    processMap:{
+        NORMAL:'normal',
+        PROCESSING:'processing',
+        SUCCESS:'sucess',
+        FAILED:'failed',
+        text:{
+          'normal':'',
+          'processing':'处理中',
+          'sucess':'处理成功',
+          'failed':'处理失败'
+        },
+        style:{
+          'normal':'',
+          'processing':'color:#E6A23C',
+          'sucess':'color:#67C23A',
+          'failed':'color:#F56C6C'
+        }
+    }
+}
