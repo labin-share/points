@@ -15,7 +15,7 @@ def hello():
     return render_template('index.html')
 
 
-@app.route('/save', methods=['POST'])
+@app.route('/users/save', methods=['POST'])
 def save():
     data = json.loads(request.data)
     db_tool.create(data)
@@ -28,9 +28,9 @@ def save():
     if (previous_info):
         previous_user = db_tool.search(name=previous_name, phone=previous_phone)
         user_info = convert_to_list(previous_user)[0]
-        if (not user_info['next']):
+        if (not user_info.get('next')):
             user_info['next'] = []
-        user_info['next'].append(next_user_list)
+        user_info.get('next').append(next_user_list)
         db_tool.update({"name": previous_name}, user_info)
     return "success"
 
