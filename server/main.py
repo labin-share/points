@@ -21,7 +21,7 @@ def save():
     db_tool.create(data)
     name = json.loads(request.data).get('name')
     phone = json.loads(request.data).get('phone')
-    next_user_list = [{'name':name, 'phone':phone}]
+    next_user_list = {'name': name, 'phone': phone}
     previous_info = json.loads(request.data).get('previous')
     previous_phone = previous_info.get('phone')
     previous_name = previous_info.get('name')
@@ -31,6 +31,9 @@ def save():
         if (not user_info.get('next')):
             user_info['next'] = []
         user_info.get('next').append(next_user_list)
+        previous_user_score = user_info.get('score')
+        previous_user_score += int(json.loads(request.data).get('score'))
+        user_info['score'] = previous_user_score
         db_tool.update({"name": previous_name}, user_info)
     return "success"
 
@@ -51,7 +54,17 @@ def increase():
         user_info = user_info[0]
         score = json.loads(request.data).get('score')
         user_info['score'] += int(score)
+        previous_user = user_info.get("previous")
+        previous_phone = previous_user.get('phone')
+        previous_name = previous_user.get('name')
         db_tool.update({"name": user_info['name'], "phone": user_info['phone']}, user_info)
+        if (previous_user):
+            previous_user = db_tool.search(name=previous_name, phone=previous_phone)
+            previous_user_info = convert_to_list(previous_user)[0]
+            previous_user_score = previous_user_info.get('score')
+            previous_user_score += int(json.loads(request.data).get('score'))
+            previous_user_info['score'] = previous_user_score
+            db_tool.update({"name": previous_name, "phone": previous_phone}, previous_user_info)
         return "Success"
     return "Fail"
 
