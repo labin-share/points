@@ -15,8 +15,23 @@ var search = (req,res)=>{
     })
 }
 
+var create = (req,res)=>{
+    let url = `http://${DOMAIN}/users/save`
+    console.log(url)
+    request.post(url,req.body, (error, response, body)=>{
+        res.send(body)
+    })
+}
+
 var changeScore = (req, res, url) =>{
-    request.put(url,req.body, (error, response, body)=>{
+
+    let option = {headers:{
+        'Content-Type': 'application/json'},
+        data:req.body,
+        url:url,
+        method:'PUT'
+    }
+    request(option, (error, response, body)=>{
         console.log('request end')
         res.send(body)
     })
@@ -24,7 +39,6 @@ var changeScore = (req, res, url) =>{
 
 var increase = (req, res)=>{
     let url = `http://${DOMAIN}/score/increase`
-    console.log('come in')
     changeScore(req, res, url)
 }
 
@@ -43,6 +57,7 @@ function buildParam(params, argMap){
 
 module.exports = {
     search:search,
+    create:create,
     increase:increase,
     descrease:descrease
 }

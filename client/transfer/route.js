@@ -4,7 +4,8 @@ const controller = require('./controller')
 
 var mountRoute = (app)=>{
     app.get(url.SEARCH, controller.search)
-    app.put(url.INCREASE, controller.increase)
+    app.get(url.CREATE, controller.create)
+    app.post(url.INCREASE, controller.increase)
     app.put(url.DESCREASE, controller.descrease)
 }
 

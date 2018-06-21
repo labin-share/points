@@ -17,7 +17,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="2">
-      <el-col :span="18">
+      <el-col :span="24">
           <el-table
           :data="tableData"
           style="width: 100%"
@@ -28,12 +28,22 @@
             width="180">
           </el-table-column>
           <el-table-column
+              prop="sex"
+              label="性别"
+              width="180">
+          </el-table-column>
+          <el-table-column
+                  prop="birth"
+                  label="生日"
+                  width="180">
+          </el-table-column>
+          <el-table-column
             prop="phone"
             label="手机号"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="points"
+            prop="score"
             label="积分">
           </el-table-column>
           <el-table-column
@@ -48,7 +58,7 @@
             prop="next"
             label="下家"
             width="300">
-            <template slot-scope="scope">
+            <template slot-scope="scope" v-if="scope.row.next">
               <span>{{scope.row.next[0].name}}</span>
               <span>{{scope.row.next[0].phone}}</span>
               <el-popover
@@ -62,7 +72,7 @@
                     {{item.phone}}
                   </li>
                 </ul>
-                <el-button slot="reference" size="mini" round>更多</el-button>
+                <el-button slot="reference" size="mini" round v-if="scope.row.next && scope.row.next.length > 1">更多</el-button>
               </el-popover>
             </template>
           </el-table-column>
@@ -70,17 +80,23 @@
           fixed="right"
           label="操作"
           width="100">
-          <template slot-scope="scope">
+          <template slot-scope="scope" v-if="scope.row.next && scope.row.next.length > 1">
             <el-button type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
         </el-table>
       </el-col>
-      <el-col :span="5">
-        <history></history>
-      </el-col>
+      <!--<el-col :span="5">-->
+        <!--<history></history>-->
+      <!--</el-col>-->
     </el-row>
-    <create :visible="isShowCreateDialog"></create>
+    <el-dialog title="添加客户" :visible.sync="isShowCreateDialog">
+        <create  ref="createDialog"></create>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="isShowCreateDialog = false">取消</el-button>
+            <el-button type="primary" @click="createUser">创建</el-button>
+        </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -92,6 +108,7 @@ import utils from '../../common/utils'
 import History from './History'
 import Create from './Create'
 import { Message } from 'element-ui'
+import axios from 'axios'
 
 export default {
   components:{History,Create},
@@ -130,7 +147,6 @@ export default {
         self.tableData = res.data
         self.tableLoading = false
       },(err)=>{
-          debugger
         self.tableLoading = false
       })
     },
@@ -147,44 +163,27 @@ export default {
     addOrDesPoints(action){
       let self = this
       let url = action == 'increase' ? transferURL.INCREASE : transferURL.DESCREASE
-      Message.info({
-        message:'处理中，请稍后',
-        duration:0,
-        center:true
-      })
       this.changeBtnStatus(action,true)
-      this.axios.put(url,{
-        phone:self.phone,
-        name:self.name,
-        score:self.points
+    var params = new URLSearchParams()
+    params.append('name', self.name);       //你要传给后台的参数值 key/value
+    params.append('phone', self.phone);
+    params.append('score', self.points);
+      axiosProxy({
+          method:'POST',
+          url:url,
+          data:params
       }).then((res)=>{
-        Message.closeAll()
         self.changeBtnStatus(action,false)
-        if(res.data){
-          Message.success({ 
-            message:'操作成功',
-            duration:1000,
-            center:true
-          })
-        }else{
-          Message.error({
-            message:'操作失败',
-            duration:1000,
-            center:true
-          })  
-        }
       },(res)=>{
         self.changeBtnStatus(action,false)
-        Message.closeAll()
-        Message.error({
-          message:'操作失败',
-          duration:1000,
-          center:true
-        })       
       })
     },
     openCreate(){
       this.isShowCreateDialog = true
+    },
+
+    createUser(){
+        this.$refs.createDialog.create()
     }
   }
 }
