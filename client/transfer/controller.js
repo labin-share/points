@@ -1,33 +1,54 @@
 var request = require('request')
 var utils = require('../common/utils')
 
-const WS_HOST = '192.168.31.207'
+const WS_HOST = '192.168.1.105'
 const WS_PORT = '5000'
 const DOMAIN = `${WS_HOST}:${WS_PORT}`
 
 var search = (req,res)=>{
     let url = `http://${DOMAIN}/users`
-    let params = utils.buildParam('', req.query)
-    url+= params
-    console.log(url)
-    request.get(url,(error,response,body)=>{
+
+    let option = {
+        headers:{
+        'Content-Type': 'application/json',
+//        'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form:req.body,
+        url:url,
+        method:'POST'
+    }
+    request(option, (error, response, body)=>{
+        console.log('request end')
         res.send(body)
     })
 }
 
 var create = (req,res)=>{
     let url = `http://${DOMAIN}/users/save`
-    console.log(url)
-    request.post(url,req.body, (error, response, body)=>{
+    let option = {
+        headers:{
+        'Content-Type': 'application/json',
+//        'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form:req.body,
+        url:url,
+        method:'POST'
+    }
+    request(option, (error, response, body)=>{
+        console.log('request end')
         res.send(body)
     })
+
 }
 
 var changeScore = (req, res, url) =>{
-
-    let option = {headers:{
-        'Content-Type': 'application/json'},
-        data:req.body,
+    console.log('change score')
+    let option = {
+        headers:{
+        'Content-Type': 'application/json',
+//        'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form:req.body,
         url:url,
         method:'PUT'
     }
@@ -43,7 +64,7 @@ var increase = (req, res)=>{
 }
 
 var descrease = (req, res)=>{
-    let url = `http://${DOMAIN}/score/descrease`
+    let url = `http://${DOMAIN}/score/decrease`
     changeScore(req, res, url)
 }
 

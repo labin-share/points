@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="3"><el-input v-model="phone" placeholder="手机号码"></el-input></el-col>
       <el-col :span="3"><el-input v-model="name" placeholder="姓名"></el-input></el-col>
+      <el-col :span="3"><el-input v-model="phone" placeholder="手机号码"></el-input></el-col>
       <el-col :span="2"><el-input v-model="points" placeholder="分数"></el-input></el-col>
       <el-col :span="5">
         <el-button-group style="margin-left:10px;">
@@ -28,6 +28,15 @@
             width="180">
           </el-table-column>
           <el-table-column
+            prop="phone"
+            label="手机号"
+            width="180">
+          </el-table-column>
+           <el-table-column
+            prop="score"
+            label="积分">
+          </el-table-column>
+          <el-table-column
               prop="sex"
               label="性别"
               width="180">
@@ -38,20 +47,12 @@
                   width="180">
           </el-table-column>
           <el-table-column
-            prop="phone"
-            label="手机号"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="score"
-            label="积分">
-          </el-table-column>
-          <el-table-column
             prop="previous"
             label="上家">
-            <template slot-scope="scope">
+            <template slot-scope="scope" >
               <span>{{scope.row.previous.name}}</span>&nbsp;
-              <span>{{scope.row.previous.phone}}</span>
+              <span>{{scope.row.previous.phone}}</span>&nbsp;
+              <span>{{scope.row.previous.score}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -64,7 +65,9 @@
               <el-popover
                 placement="right"
                 width="250"
-                trigger="click">
+                trigger="click"
+                v-if="scope.row.next && scope.row.next.length > 1"
+                >
                 <ul>
                   <li v-for="item in scope.row.next">
                     {{item.name}}
@@ -72,7 +75,7 @@
                     {{item.phone}}
                   </li>
                 </ul>
-                <el-button slot="reference" size="mini" round v-if="scope.row.next && scope.row.next.length > 1">更多</el-button>
+                <el-button slot="reference" size="mini" round  >更多</el-button>
               </el-popover>
             </template>
           </el-table-column>
@@ -80,7 +83,7 @@
           fixed="right"
           label="操作"
           width="100">
-          <template slot-scope="scope" v-if="scope.row.next && scope.row.next.length > 1">
+          <template slot-scope="scope" >
             <el-button type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
@@ -91,7 +94,7 @@
       <!--</el-col>-->
     </el-row>
     <el-dialog title="添加客户" :visible.sync="isShowCreateDialog">
-        <create  ref="createDialog"></create>
+        <create  ref="createDialog" v-if="isShowCreateDialog" @success = "handleSuccessCreateUser"></create>
         <div slot="footer" class="dialog-footer">
             <el-button @click="isShowCreateDialog = false">取消</el-button>
             <el-button type="primary" @click="createUser">创建</el-button>
@@ -139,10 +142,14 @@ export default {
     search(){ 
       let self = this
       this.tableLoading = true
-      let params = utils.buildParam('',{name:this.name,phone:this.phone})
+      //let params = utils.buildParam('',{name:this.name,phone:this.phone})
+       var params = new URLSearchParams()
+        params.append('name', this.name);
+        params.append('phone', this.phone);
       axiosProxy({
-        method:'GET',
-        url:transferURL.SEARCH+params
+        method:'POST',
+        data:params,
+        url:transferURL.SEARCH
       }).then((res)=>{
         self.tableData = res.data
         self.tableLoading = false
@@ -174,7 +181,9 @@ export default {
           data:params
       }).then((res)=>{
         self.changeBtnStatus(action,false)
+        self.search()
       },(res)=>{
+
         self.changeBtnStatus(action,false)
       })
     },
@@ -184,6 +193,15 @@ export default {
 
     createUser(){
         this.$refs.createDialog.create()
+    },
+
+    handleSuccessCreateUser(){
+        this.isShowCreateDialog = false
+        this.search()
+    },
+
+    checkUser(){
+
     }
   }
 }

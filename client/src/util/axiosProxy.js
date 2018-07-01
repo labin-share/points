@@ -3,7 +3,6 @@ import axios from 'axios'
 
 var axiosProxy = (options)=>{
     processTip()
-    debugger
     return new Promise(function(resolve, reject) {
         axios(options).then((res)=>{
             Message.closeAll()

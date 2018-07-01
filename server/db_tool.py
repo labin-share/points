@@ -10,7 +10,7 @@ def connect_db():
     points_db = client.points
 
 
-def search(name, phone):
+def search(name=None, phone=None):
     query = {}
     if (name):
         query['name'] = name
