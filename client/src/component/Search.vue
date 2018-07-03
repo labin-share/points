@@ -93,6 +93,17 @@
         <!--<history></history>-->
       <!--</el-col>-->
     </el-row>
+    <el-row type="flex" justify="end">
+        <el-pagination
+          background
+           @current-change="pageTableData"
+          layout="total, sizes, prev, pager, next"
+          :page-size="dataAmountPerPage"
+          :page-sizes="[10]"
+          :total = "allTableData.length"
+          :page-count="totoalPage">
+        </el-pagination>
+    </el-row>
     <el-dialog title="添加客户" :visible.sync="isShowCreateDialog">
         <create  ref="createDialog" v-if="isShowCreateDialog" @success = "handleSuccessCreateUser"></create>
         <div slot="footer" class="dialog-footer">
@@ -125,7 +136,10 @@ export default {
       isShowCreateDialog:false,
       tableLoading:false,
       disabledIncreaseBtn:false,
-      disabledDescreaseBtn:false
+      disabledDescreaseBtn:false,
+      totoalPage:1,
+      dataAmountPerPage:10,
+      allTableData:[]
     }
   },
   created(){
@@ -151,11 +165,33 @@ export default {
         data:params,
         url:transferURL.SEARCH
       }).then((res)=>{
-        self.tableData = res.data
+        self.allTableData = res.data
+        self.pageTableData(1)
+        self.calculatePageSize(self.allTableData.length)
         self.tableLoading = false
       },(err)=>{
         self.tableLoading = false
       })
+    },
+
+    pageTableData(currentPageNum){
+        this.tableData = []
+        let beginIndex = (currentPageNum - 1) * this.dataAmountPerPage
+        let actualDataAmountInCurrPage = this.dataAmountPerPage
+        if(beginIndex + this.dataAmountPerPage > this.allTableData.length ){
+            actualDataAmountInCurrPage = this.allTableData.length%this.dataAmountPerPage
+        }
+        for(let i = 0; i < actualDataAmountInCurrPage; i++){
+            this.tableData.push(this.allTableData[beginIndex+i])
+        }
+    },
+
+    calculatePageSize(dataLength){
+        debugger
+        this.totoalPage = Math.ceil(dataLength/this.dataAmountPerPage)
+    },
+
+    handleCurrentChange(){
     },
     test(){
       console.log('test')

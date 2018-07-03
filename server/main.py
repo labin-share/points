@@ -134,4 +134,4 @@ def convert_to_list(result):
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.1.105', port=5000, debug=True)
+    app.run(host='192.168.31.207', port=5000, debug=True)

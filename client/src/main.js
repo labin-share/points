@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import lodash from 'lodash'
-import {Row, Col, Input, Button, Table, TableColumn, Popover, ButtonGroup, Card, Dialog, Loading} from 'element-ui'
+import {Pagination, Row, Col, Input, Button, Table, TableColumn, Popover, ButtonGroup, Card, Dialog, Loading} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import axios from 'axios'
@@ -10,6 +10,7 @@ Vue.config.devtools = true
 
 Vue.prototype.axios = axios
 
+Vue.use(Pagination)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Input)

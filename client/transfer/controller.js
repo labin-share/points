@@ -1,7 +1,7 @@
 var request = require('request')
 var utils = require('../common/utils')
 
-const WS_HOST = '192.168.1.105'
+const WS_HOST = '192.168.31.207'
 const WS_PORT = '5000'
 const DOMAIN = `${WS_HOST}:${WS_PORT}`
 
@@ -18,7 +18,7 @@ var search = (req,res)=>{
         method:'POST'
     }
     request(option, (error, response, body)=>{
-        console.log('request end')
+        console.log(body)
         res.send(body)
     })
 }
