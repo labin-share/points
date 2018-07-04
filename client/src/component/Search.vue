@@ -4,7 +4,7 @@
       <el-col :span="3"><el-input v-model="name" placeholder="姓名"></el-input></el-col>
       <el-col :span="3"><el-input v-model="phone" placeholder="手机号码"></el-input></el-col>
       <el-col :span="2"><el-input v-model="points" placeholder="分数"></el-input></el-col>
-      <el-col :span="5">
+      <el-col :span="8">
         <el-button-group style="margin-left:10px;">
           <el-button type="primary" round @click="addOrDesPoints('increase')" :disabled="disabledIncreaseBtn">加分</el-button>
           <el-button type="success" round @click="addOrDesPoints('descrease')" :disabled="disabledDescreaseBtn">减分</el-button>
@@ -16,7 +16,7 @@
         <span :style="processClass">{{processText}}</span>
       </el-col>
     </el-row>
-    <el-row :gutter="2">
+    <el-row :gutter="2" style="margin-top:8px">
       <el-col :span="24">
           <el-table
           :data="tableData"
@@ -25,7 +25,7 @@
           <el-table-column
             prop="name"
             label="姓名"
-            width="180">
+            width="160">
           </el-table-column>
           <el-table-column
             prop="phone"
@@ -34,12 +34,13 @@
           </el-table-column>
            <el-table-column
             prop="score"
-            label="积分">
+            label="积分"
+            width="120">
           </el-table-column>
           <el-table-column
               prop="sex"
               label="性别"
-              width="180">
+              width="80">
           </el-table-column>
           <el-table-column
                   prop="birth"
@@ -58,7 +59,7 @@
           <el-table-column
             prop="next"
             label="下家"
-            width="300">
+           >
             <template slot-scope="scope" v-if="scope.row.next">
               <span>{{scope.row.next[0].name}}</span>
               <span>{{scope.row.next[0].phone}}</span>
@@ -256,4 +257,6 @@ export default {
   process-failed{
      color:#F56C6C
   }
+
+
 </style>

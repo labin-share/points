@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from bson import json_util
 from flask import Flask
@@ -79,6 +80,7 @@ def increase():
     if (user_info):
         user_info = user_info[0]
         score = request.form.get('score')
+        # user_info['update_time'] = datetime.datetime.now()
         user_info['score'] = int(user_info['score'] or 0) + int(score)
         db_tool.update({"name": user_info['name'], "phone": user_info['phone']}, user_info)
         previous_user = user_info.get("previous")
@@ -104,6 +106,7 @@ def decrease():
         score = int(request.form.get('score'))
         if int(user_info['score'] or 0) >= score:
             user_info['score'] = int(user_info['score']) - score
+            # user_info['update_time'] = datetime.datetime.now()
             db_tool.update({"name": user_info['name'], "phone": user_info['phone']}, user_info)
             return "success"
     return "Fail"
