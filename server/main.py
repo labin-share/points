@@ -6,6 +6,8 @@ from flask import Flask
 from flask import request, render_template, json
 
 import db_tool
+import socket
+
 
 db_tool.connect_db()
 app = Flask(__name__)
@@ -137,4 +139,7 @@ def convert_to_list(result):
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.31.207', port=5000, debug=True)
+    myname = socket.getfqdn(socket.gethostname())
+    myaddr = socket.gethostbyname(myname)
+
+    app.run(host=myaddr, port=5000, debug=True)
