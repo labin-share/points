@@ -142,4 +142,4 @@ if __name__ == '__main__':
     myname = socket.getfqdn(socket.gethostname())
     myaddr = socket.gethostbyname(myname)
 
-    app.run(host=myaddr, port=5000, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
